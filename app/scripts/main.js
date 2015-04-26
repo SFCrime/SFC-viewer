@@ -15,4 +15,5 @@ window.SFCViewer = {
 $(document).ready(function () {
     'use strict';
     SFCViewer.init();
+    var temp = new SFCViewer.Models.Polygon({});
 });
