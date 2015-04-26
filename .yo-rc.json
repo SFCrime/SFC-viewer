@@ -1,0 +1,12 @@
+{
+  "generator-backbone": {
+    "appPath": "app",
+    "appName": "SFCViewer",
+    "coffee": false,
+    "testFramework": "mocha",
+    "templateFramework": "lodash",
+    "sassBootstrap": false,
+    "includeRequireJS": false
+  },
+  "generator-mocha": {}
+}
