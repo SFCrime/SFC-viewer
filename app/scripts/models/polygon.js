@@ -2,25 +2,41 @@
 
 SFCViewer.Models = SFCViewer.Models || {};
 
-(function () {
-    'use strict';
+(function() {
+  'use strict';
 
-    SFCViewer.Models.Polygon = Backbone.Model.extend({
+  SFCViewer.Models.Polygon = Backbone.Model.extend({
     url: "http://localhost:5000/api/v1/crime/polygon/%2D122.42841124534607%2037.76128348360843%2C%2D122.42810010910034%2037.7580942260561%2C%2D122.42584705352783%2037.75822145970878%2C%2D122.42613673210143%2037.76141071177564%2C%2D122.42841124534607%2037.76128348360843",
 
-        initialize: function() {
-            this.fetch({xhrFields:{withCredentials:true}});
-        },
-
-        defaults: {
-        },
-
-        validate: function(attrs, options) {
-        },
-
-        parse: function(response, options)  {
-            return response;
+    initialize: function() {
+      this.fetch({
+        xhrFields: {
+          withCredentials: true
         }
-    });
+      });
+    },
+
+    defaults: {
+      "map": window.Map,
+      "points": [],
+      "data": {}
+    },
+
+    validate: function(attrs, options) {
+      if (attrs.parsed === false) {
+        return "Haven't gotten our points";
+      }
+    },
+
+    parse: function(response, options) {
+      var points = response.coordinates.map(function(d) {
+        return [d[1], d[0]]; // becomes lat, long
+      });
+      return {
+        "points": points,
+        "data": response.data,
+      };
+    }
+  });
 
 })();
