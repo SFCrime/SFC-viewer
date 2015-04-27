@@ -17,8 +17,7 @@ SFCViewer.Views = SFCViewer.Views || {};
     },
 
     render: function() {
-      var polygon = window.L.polygon(this.model.get("points")).addTo(window.Map);
-      console.log(polygon);
+      var polygon = window.L.polygon(this.model.get("coordinates")).addTo(window.Map);
     }
 
   });
