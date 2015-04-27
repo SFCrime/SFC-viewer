@@ -19,7 +19,7 @@ SFCViewer.Models = SFCViewer.Models || {};
     },
 
     defaults: {
-      // "map": window.Map,
+      "map": window.Map,
       "coordinates": [],
       "server_coordinates":"",
       "data": {},
