@@ -26,6 +26,9 @@ window.SFCViewer = {
 $(document).ready(function() {
   'use strict';
   SFCViewer.init();
+  var hardly = new SFCViewer.Models.SfEvent({
+    "id": "hardly-strictly-2014"
+  });
   var temp = new SFCViewer.Models.Polygon({
     "coordinates": [
       [
@@ -47,14 +50,15 @@ $(document).ready(function() {
     "data": {}
   });
 
+  hardly.fetch(window.XHRHelper);
   temp.fetch(window.XHRHelper);
-
-  var temp_render = new SFCViewer.Views.PolygonMap({
+  var temp_render = new SFCViewer.Views.MapDisplay({
     model: temp
   });
-
   temp_render.render();
-
-
-
+  var new_render = new SFCViewer.Views.MapDisplay({
+    model: hardly
+  });
+  console.log(temp_render);
+  new_render.render();
 });

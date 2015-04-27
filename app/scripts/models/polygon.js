@@ -13,22 +13,18 @@ SFCViewer.Models = SFCViewer.Models || {};
     },
 
     setCoordsToId: function() {
-      this.set("id", this.get("coordinates").map(function(d){
-          return String(d[1]).concat(" ", d[0]);
-        }).join());
+      this.set("id", this.get("coordinates").map(function(d) {
+        return String(d[1]).concat(" ", d[0]);
+      }).join());
     },
 
     defaults: {
-      "map": window.Map,
       "coordinates": [],
-      "server_coordinates":"",
       "data": {},
       "id": ""
     },
 
-    validate: function(attrs, options) {
-
-    },
+    validate: function(attrs, options) {},
 
     parse: function(response, options) {
       var coordinates = response.coordinates.map(function(d) {
@@ -36,6 +32,7 @@ SFCViewer.Models = SFCViewer.Models || {};
       });
       return {
         "coordinates": coordinates,
+        "shape_type":"polygon",
         "data": response.data,
       };
     }

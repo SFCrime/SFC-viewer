@@ -1,10 +1,10 @@
 /*global beforeEach, describe, it, assert, expect  */
 'use strict';
 
-describe('PolygonMap View', function () {
+describe('MapDisplay View', function () {
 
     beforeEach(function () {
-        this.PolygonMapView = new SFCViewer.Views.PolygonMap();
+        this.MapDisplayView = new SFCViewer.Views.MapDisplay();
     });
 
 });
