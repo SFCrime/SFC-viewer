@@ -2,7 +2,14 @@
 
 This project is built with Yeoman.io
 
-Serve the development server with
+## Setup
+run this to install our dependencies
+```sh
+bower install & npm install
+```
+
+
+##Serve the development server with
 ```sh
 grunt server
 ```
