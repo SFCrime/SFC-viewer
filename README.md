@@ -13,7 +13,8 @@ $ npm -v
 ## Setup
 run this to install our dependencies
 ```sh
-bower install & npm install
+npm install
+bower install
 ```
 
 
