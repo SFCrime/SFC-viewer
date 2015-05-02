@@ -1,6 +1,14 @@
 # SFCrimeMapping
 
 This project is built with Yeoman.io
+## Versioning
+
+```sh
+$ node -v
+v0.12.2
+$ npm -v
+2.7.4
+```
 
 ## Setup
 run this to install our dependencies
