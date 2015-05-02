@@ -16,7 +16,7 @@ $ bower -v
 run this to install our dependencies
 ```sh
 npm install -g yeoman
-bower install & npm install
+bower install && npm install
 ```
 
 
