@@ -8,13 +8,15 @@ $ node -v
 v0.12.2
 $ npm -v
 2.7.4
+$ bower -v
+1.4.1
 ```
 
 ## Setup
 run this to install our dependencies
 ```sh
-npm install
-bower install
+npm install -g yeoman
+bower install & npm install
 ```
 
 
