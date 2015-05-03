@@ -8,9 +8,11 @@ SFCViewer.Models = SFCViewer.Models || {};
     SFCViewer.Models.CrimeArea = Backbone.Model.extend({
 
         urlRoot: "http://localhost:5000/api/v1/crime/?",
-
+        
         initialize: function() {
-            console.log(this);
+            if (this.get("layer") !== undefined) {
+                this.setId();
+            }
         },
 
         url: function() {
@@ -22,18 +24,26 @@ SFCViewer.Models = SFCViewer.Models || {};
             return base.replace(/([^\/])$/, '$1') + this.id;
         },
 
-        setCoordsToId: function() {
-            var temp = this.get("coordinates").map(function(d) {
-                return String(d[1]).concat(" ", d[0]);
-            }).join();
+        setId: function() {
+            this.set("geojson_shape",this.get("layer").toGeoJSON());
+            
+            var temp = this.get("geojson_shape")
+                .geometry
+                .coordinates[0]
+                .map(function(d){ return String(d[0]).concat(" ", d[1])})
+                .join();
+            
             this.set("id", $.param({
-                "type": "Polygon",
+                "type":this.get("geojson_shape").geometry.type,
                 "coordinates": temp
             }));
 
         },
-
+        
         defaults: {
+            "geojson_shape":{},
+            "geojson":{},
+            "layer":{}
         },
 
         validate: function(attrs, options) {

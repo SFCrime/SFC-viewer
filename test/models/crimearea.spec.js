@@ -1,10 +1,10 @@
 /*global beforeEach, describe, it, assert, expect  */
 'use strict';
 
-describe('Crime Model', function () {
+describe('CrimeArea Model', function () {
 
     beforeEach(function () {
-        this.CrimeModel = new SFCViewer.Models.Crime();
+        this.CrimeAreaModel = new SFCViewer.Models.CrimeArea();
     });
 
 });
