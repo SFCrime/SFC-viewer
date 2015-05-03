@@ -37,7 +37,11 @@ window.SFCViewer = {
       var type = e.layerType,
           layer = e.layer;
           if (layer.toGeoJSON().geometry.type === "Polygon") {      
-              var temp = new window.SFCViewer.Models.CrimeArea({"layer":layer});
+              var temp = new window.SFCViewer.Models.CrimeArea({"shape_layer":layer});
+              var temp_view = new window.SFCViewer.Views.MapPointDisplay({"model":temp});
+              // window.temp = temp_view;
+              
+              
           }
   
       drawnItems.addLayer(layer);

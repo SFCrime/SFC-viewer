@@ -10,9 +10,10 @@ SFCViewer.Models = SFCViewer.Models || {};
         urlRoot: "http://localhost:5000/api/v1/crime/?",
         
         initialize: function() {
-            if (this.get("layer") !== undefined) {
+            if (this.get("shape_layer") !== undefined) {
                 this.setId();
             }
+            this.fetch(window.XHRHelper);
         },
 
         url: function() {
@@ -25,7 +26,7 @@ SFCViewer.Models = SFCViewer.Models || {};
         },
 
         setId: function() {
-            this.set("geojson_shape",this.get("layer").toGeoJSON());
+            this.set("geojson_shape",this.get("shape_layer").toGeoJSON());
             
             var temp = this.get("geojson_shape")
                 .geometry
@@ -41,15 +42,17 @@ SFCViewer.Models = SFCViewer.Models || {};
         },
         
         defaults: {
-            "geojson_shape":{},
-            "geojson":{},
-            "layer":{}
+            "geojson_shape":undefined,
+            "geojson_crime":undefined,
+            "shape_layer":undefined,
+            "points_layer":undefined
         },
 
         validate: function(attrs, options) {
         },
 
         parse: function(response, options)  {
+            console.log(this);
             return response;
         }
     });
