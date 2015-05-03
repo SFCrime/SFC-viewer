@@ -12,8 +12,7 @@ window.SFCViewer = {
     window.XHRHelper = {
       xhrFields: {
         withCredentials: true,
-      },
-      // processData: false
+      }
     }
     window.Map = L.map('map').setView([37.76, -122.44], 12);
     L.tileLayer('http://{s}.tiles.mapbox.com/v3/billc.lj7dn4cg/{z}/{x}/{y}.png', {
