@@ -28,7 +28,7 @@ window.SFCViewer = {
     // Initialise the draw control and pass it the FeatureGroup of editable layers
     var drawControl = new L.Control.Draw({
         edit: {
-            featureGroup: drawnItems
+            featureGroup: drawnItems,
         }
     });
     window.Map.addControl(drawControl);
@@ -37,9 +37,9 @@ window.SFCViewer = {
       var type = e.layerType,
           layer = e.layer;
 
-	// This is where we'll be creating a new model
-	// a call back to do so
-      window.Map.addLayer(e.layer);
+      // This is where we'll be creating a new model
+      // a call back to do so
+      drawnItems.addLayer(layer);
 
     });
 
