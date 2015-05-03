@@ -11,24 +11,30 @@ window.SFCViewer = {
     var mapbox_pk = "pk.eyJ1IjoiYmlsbGMiLCJhIjoiYllENmI2VSJ9.7 wxYGAIJoOtQ2WE3zoCJEA";
     window.XHRHelper = {
       xhrFields: {
-        withCredentials: true
-      }
+        withCredentials: true,
+      },
+      // processData: false
     }
     window.Map = L.map('map').setView([37.76, -122.44], 12);
     L.tileLayer('http://{s}.tiles.mapbox.com/v3/billc.lj7dn4cg/{z}/{x}/{y}.png', {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 18
     }).addTo(window.Map);
-
+    // window.Backbone.emulateJSON = false;
   }
 };
 
 $(document).ready(function() {
   'use strict';
   SFCViewer.init();
+
+
   var hardly = new SFCViewer.Models.SfEvent({
     "id": "hardly-strictly-2014"
   });
+  hardly.fetch(window.XHRHelper);
+
+
   var temp = new SFCViewer.Models.Polygon({
     "coordinates": [
       [
@@ -50,15 +56,15 @@ $(document).ready(function() {
     "data": {}
   });
 
-  hardly.fetch(window.XHRHelper);
+
   temp.fetch(window.XHRHelper);
   var temp_render = new SFCViewer.Views.MapDisplay({
     model: temp
   });
-  temp_render.render();
-  var new_render = new SFCViewer.Views.MapDisplay({
-    model: hardly
-  });
   console.log(temp_render);
-  new_render.render();
+  temp_render.render();
+  // var new_render = new SFCViewer.Views.MapDisplay({
+  //   model: hardly
+  // });
+  // new_render.render();
 });
