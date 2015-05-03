@@ -14,18 +14,40 @@ window.SFCViewer = {
         withCredentials: true,
       }
     }
-    window.Map = L.map('map').setView([37.76, -122.44], 12);
+
+    window.Map = L.map('map').setView([37.77, -122.44], 13);
+
     L.tileLayer('http://{s}.tiles.mapbox.com/v3/billc.lj7dn4cg/{z}/{x}/{y}.png', {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-      maxZoom: 18
     }).addTo(window.Map);
-    // window.Backbone.emulateJSON = false;
+
+    // Initialise the FeatureGroup to store editable layers
+    var drawnItems = new L.FeatureGroup();
+    window.Map.addLayer(drawnItems);
+
+    // Initialise the draw control and pass it the FeatureGroup of editable layers
+    var drawControl = new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems
+        }
+    });
+    window.Map.addControl(drawControl);
+
+    window.Map.on('draw:created', function(e) {
+      var type = e.layerType,
+          layer = e.layer;
+
+      window.Map.addlayer(e.layer);
+
+    });
+
   }
 };
 
 $(document).ready(function() {
   'use strict';
   SFCViewer.init();
+
 
 
   var hardly = new SFCViewer.Models.SfEvent({
@@ -66,4 +88,6 @@ $(document).ready(function() {
   //   model: hardly
   // });
   // new_render.render();
+
 });
+
