@@ -37,7 +37,9 @@ window.SFCViewer = {
       var type = e.layerType,
           layer = e.layer;
 
-      window.Map.addlayer(e.layer);
+	// This is where we'll be creating a new model
+	// a call back to do so
+      window.Map.addLayer(e.layer);
 
     });
 
@@ -53,7 +55,7 @@ $(document).ready(function() {
   var hardly = new SFCViewer.Models.SfEvent({
     "id": "hardly-strictly-2014"
   });
-  hardly.fetch(window.XHRHelper);
+  // hardly.fetch(window.XHRHelper);
 
 
   var temp = new SFCViewer.Models.Polygon({
@@ -76,18 +78,11 @@ $(document).ready(function() {
     ],
     "data": {}
   });
+  // temp.fetch(window.XHRHelper);
+  //var temp_render = new SFCViewer.Views.MapDisplay({
+    //model: temp
+//  });
 
-
-  temp.fetch(window.XHRHelper);
-  var temp_render = new SFCViewer.Views.MapDisplay({
-    model: temp
-  });
-  console.log(temp_render);
-  temp_render.render();
-  // var new_render = new SFCViewer.Views.MapDisplay({
-  //   model: hardly
-  // });
-  // new_render.render();
 
 });
 

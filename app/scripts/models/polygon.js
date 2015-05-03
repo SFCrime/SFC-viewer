@@ -30,7 +30,7 @@ SFCViewer.Models = SFCViewer.Models || {};
         "type": "Polygon",
         "coordinates": temp
       }));
-      console.log(this.get("id"));
+
     },
 
     defaults: {
@@ -42,7 +42,7 @@ SFCViewer.Models = SFCViewer.Models || {};
     validate: function(attrs, options) {},
 
     parse: function(response, options) {
-      console.log(response);
+//      console.log(response);
       var coordinates = response.coordinates.map(function(d) {
         return [d[1], d[0]]; // becomes lat, long
       });
