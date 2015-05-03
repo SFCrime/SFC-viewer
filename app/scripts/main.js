@@ -33,12 +33,14 @@ window.SFCViewer = {
     });
     window.Map.addControl(drawControl);
 
-    window.Map.on('draw:created', function(e) {
+      window.Map.on('draw:created', function(e) {
+          console.log(e);
       var type = e.layerType,
           layer = e.layer;
-
-	// This is where we'll be creating a new model
-	// a call back to do so
+        (function(){
+            SFCViewer.Models.CrimeArea({"element":e});
+          
+        })()
       window.Map.addLayer(e.layer);
 
     });
@@ -49,35 +51,36 @@ window.SFCViewer = {
 $(document).ready(function() {
   'use strict';
   SFCViewer.init();
-
-
-
+    // Test Models
+    
   var hardly = new SFCViewer.Models.SfEvent({
     "id": "hardly-strictly-2014"
   });
+
+    
   // hardly.fetch(window.XHRHelper);
 
-
-  var temp = new SFCViewer.Models.Polygon({
-    "coordinates": [
-      [
-        37.76128348360843, -122.42841124534607
-      ],
-      [
-        37.7580942260561, -122.42810010910034
-      ],
-      [
-        37.75822145970878, -122.42584705352783
-      ],
-      [
-        37.76141071177564, -122.42613673210143
-      ],
-      [
-        37.76128348360843, -122.42841124534607
-      ]
-    ],
-    "data": {}
-  });
+  // var temp = new SFCViewer.Models.Polygon({
+  //   "coordinates": [
+  //     [
+  //       37.76128348360843, -122.42841124534607
+  //     ],
+  //     [
+  //       37.7580942260561, -122.42810010910034
+  //     ],
+  //     [
+  //       37.75822145970878, -122.42584705352783
+  //     ],
+  //     [
+  //       37.76141071177564, -122.42613673210143
+  //     ],
+  //     [
+  //       37.76128348360843, -122.42841124534607
+  //     ]
+  //   ],
+  //   "data": {}
+  // });
+    
   // temp.fetch(window.XHRHelper);
   //var temp_render = new SFCViewer.Views.MapDisplay({
     //model: temp
