@@ -42,9 +42,6 @@ window.SFCViewer = {
             SFCViewer.Models.CrimeArea({"element":e});
           
         })()
-      window.Map.addLayer(e.layer);
-
-
       // This is where we'll be creating a new model
       // a call back to do so
       drawnItems.addLayer(layer);
