@@ -36,14 +36,14 @@ window.SFCViewer = {
       window.Map.on('draw:created', function(e) {
       var type = e.layerType,
           layer = e.layer;
-          if (layer.toGeoJSON().geometry.type === "Polygon") {      
+          if (layer.toGeoJSON().geometry.type === "Polygon") {
               var temp = new window.SFCViewer.Models.CrimeArea({"shape_layer":layer});
               var temp_view = new window.SFCViewer.Views.MapPointDisplay({"model":temp});
               // window.temp = temp_view;
-              
-              
+
+
           }
-  
+
       drawnItems.addLayer(layer);
 
 
@@ -55,7 +55,7 @@ window.SFCViewer = {
 $(document).ready(function() {
   'use strict';
     SFCViewer.init();
-    
+
   var hardly = new SFCViewer.Models.SfEvent({
     "id": "hardly-strictly-2014"
   });
