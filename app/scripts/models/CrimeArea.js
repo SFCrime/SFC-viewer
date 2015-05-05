@@ -11,8 +11,11 @@ SFCViewer.Models = SFCViewer.Models || {};
 
         initialize: function() {
             if (this.get("shape_layer") !== undefined) {
-                this.setId();
+                this.setIdFromDraw();
+            } else {
+                this.setIdFromQueryParams();
             }
+            window.history.pushState('object or string', 'Title',"?" + this.get("id"));
             this.fetch(window.XHRHelper);
         },
 
@@ -25,7 +28,7 @@ SFCViewer.Models = SFCViewer.Models || {};
             return base.replace(/([^\/])$/, '$1') + this.id;
         },
 
-        setId: function() {
+        setIdFromDraw: function() {
             this.set("geojson_shape",this.get("shape_layer").toGeoJSON());
 
             var temp = this.get("geojson_shape")
@@ -34,13 +37,29 @@ SFCViewer.Models = SFCViewer.Models || {};
                 .map(function(d){ return String(d[0]).concat(" ", d[1])})
                 .join();
 
-            this.set("id", $.param({
+            var params =  $.param({
                 "type":this.get("geojson_shape").geometry.type,
                 "coordinates": temp,
                 "start_date": "09-07-2014",
                 "end_date":"09-10-2014"
-            }));
+            });
 
+            this.set("id",params);
+            // This just pushes our query params to the url, now we can link to it easily
+        
+        },
+
+        setIdFromQueryParams: function(){
+            var url_params = ["type", "coordinates", "start_date", "end_date"];
+
+            var res = {};
+            for (var x in url_params){
+                res[url_params[x]] = this.get(url_params[x]);
+            };
+
+            console.log(res);
+            
+            this.set("id", $.param(res));
         },
 
         defaults: {

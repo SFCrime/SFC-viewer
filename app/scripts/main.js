@@ -1,13 +1,26 @@
 /*global SFCViewer, $*/
 
-
 window.SFCViewer = {
   Models: {},
   Collections: {},
   Views: {},
   Routers: {},
   init: function() {
-    'use strict';
+      'use strict';
+
+      //Functions
+
+      function getParameterByName(name) {
+          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+              results = regex.exec(location.search);
+          return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
+
+
+      //End Functions
+
+      //Mapping Information
     var mapbox_pk = "pk.eyJ1IjoiYmlsbGMiLCJhIjoiYllENmI2VSJ9.7 wxYGAIJoOtQ2WE3zoCJEA";
     window.XHRHelper = {
       xhrFields: {
@@ -45,10 +58,24 @@ window.SFCViewer = {
 
           }
 
-      drawnItems.addLayer(layer);
-
+          drawnItems.addLayer(layer);
 
     });
+      // End Mapping Information
+
+      var url_params = ["type", "coordinates", "start_date", "end_date"];
+
+      var res = {};
+
+      for (var x in url_params){
+          res[url_params[x]] = getParameterByName(url_params[x]);
+      };
+
+      // getting query parameters
+
+      var temp = new window.SFCViewer.Models.CrimeArea(res);
+      var temp_view = new window.SFCViewer.Views.MapPointDisplay({"model":temp});
+      var dayofweekview = new window.SFCViewer.Views.CrimeByDayPerHour({"model":temp});
 
   }
 };
