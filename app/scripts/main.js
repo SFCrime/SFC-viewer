@@ -39,6 +39,7 @@ window.SFCViewer = {
           if (layer.toGeoJSON().geometry.type === "Polygon") {
               var temp = new window.SFCViewer.Models.CrimeArea({"shape_layer":layer});
               var temp_view = new window.SFCViewer.Views.MapPointDisplay({"model":temp});
+              var dayofweekview = new window.SFCViewer.Views.CrimeByDayPerHour({"model":temp});
               // window.temp = temp_view;
 
 

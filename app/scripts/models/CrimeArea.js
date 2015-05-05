@@ -44,6 +44,7 @@ SFCViewer.Models = SFCViewer.Models || {};
         },
 
         defaults: {
+            "crossfilter_object":undefined,
             "geojson_shape":undefined,
             "geojson_crime":undefined,
             "shape_layer":undefined,
@@ -54,7 +55,26 @@ SFCViewer.Models = SFCViewer.Models || {};
         },
 
         parse: function(response, options)  {
-            console.log(this);
+            var tmp = crossfilter(response.geojson_crime.features);
+            var crime = tmp.dimension(function(d) { return d.geometry.coordinates[1] + "," + d.geometry.coordinates[0]; });
+
+            var category = tmp.dimension(function(d) { return d.properties.category; });
+
+            var dayofweek = tmp.dimension(function(d) { return d.properties.dayofweek; });
+
+            var crimesbyday =  tmp.dimension(function (d) { return new Date(d.properties.date); });
+            response.crossfilter_object = {
+              "data": tmp,
+              "groupname": "marker-area",
+              "crime": crime,
+              "crimeGroup": crime.group().reduceCount(),
+              "category": category,
+              "categoryGroup": category.group().reduceCount(),
+              "dayofweek": dayofweek,
+              "dayofweekGroup": dayofweek.group().reduceCount(),
+              "crimesbyday":crimesbyday,
+              "crimesbydayGroup": crimesbyday.group().reduceCount()
+            };
             return response;
         }
     });
