@@ -36,7 +36,9 @@ SFCViewer.Models = SFCViewer.Models || {};
 
             this.set("id", $.param({
                 "type":this.get("geojson_shape").geometry.type,
-                "coordinates": temp
+                "coordinates": temp,
+                "start_date": "09-07-2014",
+                "end_date":"09-10-2014"
             }));
 
         },
