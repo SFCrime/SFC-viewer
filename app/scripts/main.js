@@ -53,8 +53,6 @@ window.SFCViewer = {
               var temp = new window.SFCViewer.Models.CrimeArea({"shape_layer":layer});
               var temp_view = new window.SFCViewer.Views.MapPointDisplay({"model":temp});
               var dayofweekview = new window.SFCViewer.Views.CrimeByDayPerHour({"model":temp});
-              // window.temp = temp_view;
-
 
           }
 
@@ -64,19 +62,20 @@ window.SFCViewer = {
       // End Mapping Information
 
       var url_params = ["type", "coordinates", "start_date", "end_date"];
-
       var res = {};
-
       for (var x in url_params){
           res[url_params[x]] = getParameterByName(url_params[x]);
       };
 
-      // getting query parameters
-
-      var temp = new window.SFCViewer.Models.CrimeArea(res);
-      var temp_view = new window.SFCViewer.Views.MapPointDisplay({"model":temp});
-      var dayofweekview = new window.SFCViewer.Views.CrimeByDayPerHour({"model":temp});
-
+      // Do This only if query parameters exist
+      
+      if (res['type'] !== undefined){
+          var temp = new window.SFCViewer.Models.CrimeArea(res);
+          var temp_view = new window.SFCViewer.Views.MapPointDisplay({"model":temp});
+          var dayofweekview = new window.SFCViewer.Views.CrimeByDayPerHour({"model":temp});
+      }
+      
+      
   }
 };
 
