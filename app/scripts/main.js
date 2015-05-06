@@ -69,7 +69,7 @@ window.SFCViewer = {
 
       // Do This only if query parameters exist
       
-      if (res['type'] !== undefined){
+      if (res['type'] !== ""){
           var temp = new window.SFCViewer.Models.CrimeArea(res);
           var temp_view = new window.SFCViewer.Views.MapPointDisplay({"model":temp});
           var dayofweekview = new window.SFCViewer.Views.CrimeByDayPerHour({"model":temp});
