@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    //Date Picker
-    $('#datePicker').datepicker();
 
     // Mapping Setup
     var mapbox_pk = "pk.eyJ1IjoiYmlsbGMiLCJhIjoiYllENmI2VSJ9.7 wxYGAIJoOtQ2WE3zoCJEA";
@@ -12,44 +10,68 @@ $(document).ready(function() {
     }).addTo(window.Map);
 
     var drawnItems = new L.FeatureGroup(); // the items that will be drawn
-    window.Map.addLayer(drawnItems);
+
 
     var drawControl = new L.Control.Draw({
         draw: { // controls what features show up
             polyline: false,
-            marker: false
+            marker: false,
+            circle: false // hope to enable in the future
         },
         edit: { // adds the feature groups
             featureGroup: drawnItems,
         }
     });
-    window.Map.addControl(drawControl);
 
-    window.Map.on('draw:created', function(e) {
-        var type = e.layerType,
-            layer = e.layer;
+    // should disable functionality to draw multiple
+    var onDrawComplete = function(e) {
+        var layer = e.layer;
         drawnItems.addLayer(layer);
-
-        // Need to setup drawing
         if (layer.toGeoJSON().geometry.type === "Polygon") {
-
+            window.formGeoJSON = layer.toGeoJSON();
+            console.log(window.formGeoJSON);
         }
-    });
-    // End Mapping Setup
+    }
+
+    var onEditComplete = function(e) {
+            var layer = e.layers.getLayers()[0];
+            if (layer.toGeoJSON().geometry.type === "Polygon") {
+                window.formGeoJSON = layer.toGeoJSON();
+                console.log(window.formGeoJSON);
+            }
+        }
+        // End Mapping Setup
 
     // Create Form submit
-    function createFormSubmit(){
-        var startDate1 = $('#startDate1').val(),
-            endDate1 = $('#endDate1').val(),
-            startDate2 = $('#startDate2').val(),
-            endDate2 = $('#endDate2').val(),
-            eventName = $('#eventName').val();
+    var createFormSubmit = function() {
+        var dirtyParams = {};
+        dirtyParams.startDate1 = $('#startDate1').val();
+        dirtyParams.endDate1 = $('#endDate1').val();
+        dirtyParams.startDate2 = $('#startDate2').val();
+        dirtyParams.endDate2 = $('#endDate2').val();
+        dirtyParams.eventName = $('#eventName').val();
+        dirtyParams.geoType = window.formGeoJSON.geometry.type;
+        dirtyParams.coordinates = window.formGeoJSON
+            .geometry
+            .coordinates[0]
+            .map(function(d) {
+                return String(d[0]).concat(" ", d[1]);
+            }).join();
 
-        console.log(startDate);
-        console.log(endDate);
-        console.log(eventName);
+        console.log(dirtyParams.coordinates);
+
+        var params = $.param(dirtyParams);
+        var url = "http://localhost:9000/event_comparison.html?" + params;
+        window.location.href = url;
         return false; // prevent refresh of page
     }
 
+    // Instantiations
+    $('#datePicker1').datepicker();
+    $('#datePicker2').datepicker();
+    window.Map.addLayer(drawnItems);
+    window.Map.addControl(drawControl);
+    window.Map.on('draw:created', onDrawComplete);
+    window.Map.on('draw:edited', onEditComplete);
     $("#creationForm").submit(createFormSubmit);
 });
