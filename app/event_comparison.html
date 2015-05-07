@@ -23,28 +23,33 @@
 </head>
 
 <body>
-  <!--[if lt IE 10]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+  <div class="container-fluid">
 
-    <div class='navbar navbar-default navbar-fixed-top' role='navigation'>
-      <h1>San Francisco Crime Viz!</h1>
+  <div class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-header">
+        <h1>San Francisco Crime Viz!</h1>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse"></div>
     </div>
-    <div id='map'></div>
-    <div id="panel">
-      <div>
-        <p>Day of the Week</p>
-        <div id='dayofweek'></div>
+
+    <div class="row">
+      <div class="col-md-8">
+        <div id="map"></div>
       </div>
-      <div>
-        <p>Crime Category</p>
-        <div id='category'></div>
-      </div>
-      <div>
-        <p>Crimes By Day</p>
-        <div id='crimesbyday'></div>
+      <div class="col-md-4 sidebar">
+        <ul id="dayofweek" class="nav nav-sidebar">
+          <li>Day of the Week</li>
+        </ul>
+        <ul id="category" class="nav nav-sidebar">
+          <li>Crime Category</li>
+        </ul>
+        <ul id="crimesbyday" class="nav nav-sidebar">
+          <li>Crimes By Day</li>
+        </ul>
       </div>
     </div>
+  </div>
+
   <!-- build:js scripts/vendor.js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/lodash/dist/lodash.compat.js"></script>

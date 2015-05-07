@@ -18,7 +18,9 @@ $(document).ready(function() {
             }),
             categoryGroup = category.group().reduceCount(),
             dayofweek = data.dimension(function(d) {
-                return d.properties.dayofweek;
+                var day = new Date(d.properties.date).getDay();
+                var name = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satday'];
+                return day + '.' + name[day];
             }),
             dayofweekGroup = dayofweek.group().reduceCount(),
             crimesbyday = data.dimension(function(d) {
@@ -60,6 +62,7 @@ $(document).ready(function() {
             .width(450)
             .elasticX(true)
             .colors(["#2b8cbe"])
+            .label(function (d) { return d.key.split('.')[1]; })
             .xAxis().ticks(2).tickFormat(d3.format("s"));
 
         dc.barChart("#crimesbyday", groupname)
