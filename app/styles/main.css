@@ -11,38 +11,3 @@ body {
     padding-top: 100px;
 }
 
-/*
-body {
-    padding: 0;
-    margin: 0;
-    font-family: Arial,"Helvetica Neue",Helvetica, sans-serif;
-}
-html, body {
-    height: 100%;
-}
-
-#map {
-    top: 65px;
-    right: 500px;
-    left: 0;
-    bottom: 0;
-    position: absolute;
-    width: auto;
-    height: auto;
-    visibility: visible;
-}
-
-#panel {
-    top: 65px;
-    right: 0px;
-    bottom: 0px;
-    z-index: 50;
-    position: absolute;
-    background: none repeat scroll 0% 0% #F5F5F5;
-    width: 500px;
-    height: auto;
-    overflow: auto;
-    display: block;
-    padding: 30px 30px 30px 30px;
-}
-*/
