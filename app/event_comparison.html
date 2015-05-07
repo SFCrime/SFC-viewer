@@ -35,12 +35,16 @@
     </div>
 
     <div class='row'>
-      <div class='col-md-6'>
-        <a href="/create.html">Create</a>
+      <div class='col-md-8'>
+        <div id='map'></div>
       </div>
-      <div class='col-md-6'>
-        <a href="/event_comparison.html">Compare</a>
+      <div class='col-md-4'>
+        <div id='dayofweek'></div>
+        <div id='category'></div>
       </div>
+      <divclass='col-md-12'>
+        <div id='crimesbyday'></div>
+    </div>
     </div>
   </div>
 
@@ -56,7 +60,8 @@
   <!-- endbuild -->
 
   <!-- build:js({.tmp,app}) scripts/main.js -->
-  <script src="scripts/index.js"></script>
+  <script src="scripts/setup.js"></script>
+  <script src="scripts/main.js"></script>
   <!-- endbuild -->
 </body>
 
