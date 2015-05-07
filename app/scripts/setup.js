@@ -1,26 +1,35 @@
 window.setupApp = function() {
-
-    window.XHRHelper = {
+    'use strict';
+    var XHRHelper = {
         xhrFields: {
             withCredentials: true,
         }
-    }
+    };
+
+    var api_url_base = "http://localhost:5000/api/v1/crime/?";
 
     //Query Parameter Parsing
-    function getParameterByName(name) {
+    var getParameterByName = function(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
             results = regex.exec(location.search);
         return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
 
-    var url_params = ["type", "coordinates", "start_date", "end_date"];
+    var url_params = ["type", "geo_type", "coordinates", "start_date_1", "end_date_1", "start_date_2", "end_date_2"];
     var res = {};
+
     for (var x in url_params) {
         res[url_params[x]] = getParameterByName(url_params[x]);
-    };
-    // Do This only if query parameters exist
-    if (res['type'] !== "") {
-        // need to set up query parsing to model
+    }
+
+    console.log(res);
+    
+    return {
+        getParams: function() {
+            return res;
+        },
+        api_url_base: api_url_base,
+
     }
 }

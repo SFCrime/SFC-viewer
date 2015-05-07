@@ -1,10 +1,19 @@
 $(document).ready(function() {
     'use strict';
-    window.setupApp();
-
-    d3.xhr("http://localhost:5000/api/v1/crime/?type=Polygon&coordinates=-122.43114709854127+37.75737492779443%2C-122.43114709854127+37.76243022568955%2C-122.42318630218506+37.76243022568955%2C-122.42318630218506+37.75737492779443%2C-122.43114709854127+37.75737492779443&start_date=09-07-2014&end_date=09-20-2014", function(data) {
+    var setUp = window.setupApp();
+    var url;
+    var renderData = function(data) {
         drawMarkerArea(JSON.parse(data.response));
-    });
+    }
+
+    if (!((setUp.getParams().type == "") || (setUp.getParams().type === undefined))) {
+        url = setUp.api_url_base + $.param(setUp.getParams()); // do we have query params? if so set the url
+    } else { // give a default view...likely change this in the future
+        url = "http://localhost:5000/api/v1/crime/?type=1v1&geo_type=Polygon&coordinates=-122.43114709854127+37.75737492779443%2C-122.43114709854127+37.76243022568955%2C-122.42318630218506+37.76243022568955%2C-122.42318630218506+37.75737492779443%2C-122.43114709854127+37.75737492779443&start_date=09-07-2014&end_date=09-20-2014"
+    }
+
+    d3.xhr(url, renderData);
+
 
     function drawMarkerArea(data) {
         var data = crossfilter(data.geojson_crime.features),
@@ -62,7 +71,9 @@ $(document).ready(function() {
             .width(450)
             .elasticX(true)
             .colors(["#2b8cbe"])
-            .label(function (d) { return d.key.split('.')[1]; })
+            .label(function(d) {
+                return d.key.split('.')[1];
+            })
             .xAxis().ticks(2).tickFormat(d3.format("s"));
 
         dc.barChart("#crimesbyday", groupname)
