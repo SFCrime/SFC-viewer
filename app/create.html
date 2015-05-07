@@ -30,11 +30,11 @@
 
     <div class='container'>
 
-      <div class='row'>
-        <div class='col-md-12 text-center'>
-          <h1>Create An Event!</h1>
+        <div class='row'>
+            <div class='col-md-12 text-center'>
+                <h1>Create An Event!</h1>
+            </div>
         </div>
-      </div>
 
         <div class='row'>
             <div class='col-md-6'>
@@ -52,14 +52,21 @@
                         <label for="eventName">Event Name</label>
                         <input type="text" class="form-control" id="eventName" placeholder="Enter Event Name">
                     </div>
-
                     <div class='form-group'>
-                        <label for="datePicker1"> Please Select the Initial Event's Start and End Dates</label>
-                        <div id='datePicker1' class="input-daterange input-group">
-                            <input type="text" id='startDate1' class="input-sm form-control" aria-describedby="datemid" value="9-9-2014" />
-                            <span id="datemid" class="input-group-addon">to</span>
-                            <input type="text" id='endDate1' aria-describedby="datemid" class="input-sm form-control" value="9-12-2014" />
+                      <div class="btn-group" id='comparisonType' data-toggle="buttons">
+                        <label class="btn btn-default active">
+                          <input type="radio" name="options" value="1v1" autocomplete="off" checked> Event to Event Comparison
+                        </label>
+                        <label class="btn btn-default">
+                          <input type="radio" name="options" value="1vall" autocomplete="off"> Event to Baseline Comparison
+                        </label>
                         </div>
+                    </div>
+                    <label for="datePicker1"> Please Select the Initial Event's Start and End Dates</label>
+                    <div id='datePicker1' class="input-daterange input-group">
+                        <input type="text" id='startDate1' class="input-sm form-control" aria-describedby="datemid" value="9-9-2014" />
+                        <span id="datemid" class="input-group-addon">to</span>
+                        <input type="text" id='endDate1' aria-describedby="datemid" class="input-sm form-control" value="9-12-2014" />
                     </div>
                     <div class='form-group'>
                         <label for="datePicker2"> Please Select the Second Event's Start and End Dates</label>
@@ -82,6 +89,7 @@
     <script src="bower_components/d3/d3.min.js"></script>
     <script src="bower_components/crossfilter/crossfilter.min.js"></script>
     <script src="bower_components/dcjs/web/js/dc.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="scripts/vendor/dc.leaflet.js"></script>
     <!-- endbuild -->

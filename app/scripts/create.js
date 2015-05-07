@@ -50,16 +50,16 @@ $(document).ready(function() {
         dirtyParams.start_date_2 = $('#startDate2').val();
         dirtyParams.end_date_2 = $('#endDate2').val();
         dirtyParams.event_name = $('#eventName').val();
-        dirtyParams.type = window.formGeoJSON.geometry.type;
+        dirtyParams.type = $('#comparisonType input[type=radio]:checked').val();
+        dirtyParams.geo_type = window.formGeoJSON.geometry.type;
         dirtyParams.coordinates = window.formGeoJSON
             .geometry
             .coordinates[0]
             .map(function(d) {
-                return String(d[0]).concat(" ", d[1]);
+               return String(d[0]).concat(" ", d[1]);
             }).join();
 
-        console.log(dirtyParams.coordinates);
-
+        console.log(dirtyParams);
         var params = $.param(dirtyParams);
         var url = "http://localhost:9000/event_comparison.html?" + params;
         window.location.href = url;
@@ -67,11 +67,14 @@ $(document).ready(function() {
     }
 
     // Instantiations
+    // Datepickers
     $('#datePicker1').datepicker({format:"mm-dd-yyyy"});
     $('#datePicker2').datepicker({format:"mm-dd-yyyy"});
+    // Map stuff
     window.Map.addLayer(drawnItems);
     window.Map.addControl(drawControl);
     window.Map.on('draw:created', onDrawComplete);
     window.Map.on('draw:edited', onEditComplete);
+    // Form
     $("#creationForm").submit(createFormSubmit);
 });
