@@ -10,6 +10,7 @@
   <!-- build:css styles/vendor.css -->
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="bower_components/dcjs/dc.css">
   <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
   <link rel="stylesheet" href="bower_components/leaflet-draw/dist/leaflet.draw.css">
   <!-- endbuild -->
@@ -26,28 +27,24 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-  <div class='container'>
-    <div class='row'>
-
-      <div class='col-md-12'>
-        <h1>San Francisco Crime Viz!</h1>
-      </div>
+    <div class='navbar navbar-default navbar-fixed-top' role='navigation'>
+      <h1>San Francisco Crime Viz!</h1>
     </div>
-
-    <div class='row'>
-      <div class='col-md-8'>
-        <div id='map'></div>
-      </div>
-      <div class='col-md-4'>
+    <div id='map'></div>
+    <div id="panel">
+      <div>
+        <p>Day of the Week</p>
         <div id='dayofweek'></div>
+      </div>
+      <div>
+        <p>Crime Category</p>
         <div id='category'></div>
       </div>
-      <divclass='col-md-12'>
+      <div>
+        <p>Crimes By Day</p>
         <div id='crimesbyday'></div>
+      </div>
     </div>
-    </div>
-  </div>
-
   <!-- build:js scripts/vendor.js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/lodash/dist/lodash.compat.js"></script>
@@ -61,7 +58,7 @@
 
   <!-- build:js({.tmp,app}) scripts/main.js -->
   <script src="scripts/setup.js"></script>
-  <script src="scripts/main.js"></script>
+  <script src="scripts/graphs.js"></script>
   <!-- endbuild -->
 </body>
 
