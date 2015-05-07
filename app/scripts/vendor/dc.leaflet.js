@@ -8,14 +8,15 @@ dc.leafletChart = function(_chart) {
   var _defaultZoom=false;
 
   var _tiles=function(map) {
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    L.tileLayer('http://{s}.tiles.mapbox.com/v3/billc.lj7dn4cg/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'
     }).addTo(map);
   }
 
   _chart.doRender = function() {
     _map = L.map(_chart.root().node(),_mapOptions);
     if (_defaultCenter && _defaultZoom)
+      // _map.setView([37.77, -122.44], 13);
       _map.setView(_chart.toLocArray(_defaultCenter), _defaultZoom);
 
     _chart.tiles()(_map);
