@@ -2,69 +2,70 @@
 <html class="no-js" lang="">
 
 <head>
-  <meta charset="utf-8">
-  <title>SFCViewer</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css styles/vendor.css -->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="bower_components/dcjs/dc.css">
-  <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
-  <link rel="stylesheet" href="bower_components/leaflet-draw/dist/leaflet.draw.css">
-  <!-- endbuild -->
-  <!-- build:css(.tmp) styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild -->
-  <!-- build:js scripts/vendor/modernizr.js -->
-  <script src="bower_components/modernizr/modernizr.js"></script>
-  <!-- endbuild -->
+    <meta charset="utf-8">
+    <title>SFCViewer</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/vendor.css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bower_components/dcjs/dc.css">
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="bower_components/leaflet-draw/dist/leaflet.draw.css">
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
 </head>
 
 <body>
-  <div class="container-fluid">
+    <div class="container-fluid">
 
-  <div class="navbar navbar-default navbar-fixed-top">
-      <div class="navbar-header">
-        <h1>San Francisco Crime Viz!</h1>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse"></div>
+        <div class="navbar navbar-default navbar-fixed-top">
+            <div class='container'>
+                <div class="navbar-header"></div>
+                <h1>San Francisco Crime Viz!</h1>
+                <div id="navbar" class="navbar-collapse collapse"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div id="map"></div>
+            </div>
+            <div class="col-md-4 sidebar">
+                <ul id="dayofweek" class="nav nav-sidebar">
+                    <li>Day of the Week</li>
+                </ul>
+                <ul id="category" class="nav nav-sidebar">
+                    <li>Crime Category</li>
+                </ul>
+                <ul id="crimesbyday" class="nav nav-sidebar">
+                    <li>Crimes By Day</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-8">
-        <div id="map"></div>
-      </div>
-      <div class="col-md-4 sidebar">
-        <ul id="dayofweek" class="nav nav-sidebar">
-          <li>Day of the Week</li>
-        </ul>
-        <ul id="category" class="nav nav-sidebar">
-          <li>Crime Category</li>
-        </ul>
-        <ul id="crimesbyday" class="nav nav-sidebar">
-          <li>Crimes By Day</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+    <!-- build:js scripts/vendor.js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="bower_components/leaflet-draw/dist/leaflet.draw.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/crossfilter/crossfilter.min.js"></script>
+    <script src="bower_components/dcjs/web/js/dc.js"></script>
+    <script src="scripts/vendor/dc.leaflet.js"></script>
+    <!-- endbuild -->
 
-  <!-- build:js scripts/vendor.js -->
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-  <script src="bower_components/leaflet/dist/leaflet.js"></script>
-  <script src="bower_components/leaflet-draw/dist/leaflet.draw.js"></script>
-  <script src="bower_components/d3/d3.min.js"></script>
-  <script src="bower_components/crossfilter/crossfilter.min.js"></script>
-  <script src="bower_components/dcjs/web/js/dc.js"></script>
-  <script src="scripts/vendor/dc.leaflet.js"></script>
-  <!-- endbuild -->
-
-  <!-- build:js({.tmp,app}) scripts/main.js -->
-  <script src="scripts/setup.js"></script>
-  <script src="scripts/graphs.js"></script>
-  <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/main.js -->
+    <script src="scripts/setup.js"></script>
+    <script src="scripts/graphs.js"></script>
+    <!-- endbuild -->
 </body>
 
 </html>

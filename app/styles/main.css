@@ -1,13 +1,11 @@
 #creationMap {
-    height:500px;
+    height: 500px;
 }
-
 #map {
-    height:500px;
-    width:100%;
+    height: 93vh;
+    /* this needs to be fixed to take the navbar into account*/
+    width: 100%;
 }
-
 body {
-    padding-top: 100px;
+    padding-top: 70px;
 }
-

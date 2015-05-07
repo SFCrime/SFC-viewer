@@ -3,7 +3,10 @@ $(document).ready(function() {
     var setUp = window.setupApp();
     var url;
     var renderData = function(data) {
-        drawMarkerArea(JSON.parse(data.response));
+        var response = JSON.parse(data.response);
+        console.log(response);
+        drawMarkerArea(response.geojson_crime[0]);
+        //drawMarkerArea(response.geojson_crime[1].features);
     }
 
     if (!((setUp.getParams().type == "") || (setUp.getParams().type === undefined))) {
@@ -15,8 +18,8 @@ $(document).ready(function() {
     d3.xhr(url, renderData);
 
 
-    function drawMarkerArea(data) {
-        var data = crossfilter(data.geojson_crime.features),
+    function drawMarkerArea(data) { // must accept only a geojson object
+        var data = crossfilter(data.features),
             groupname = "marker-area",
             crime = data.dimension(function(d) {
                 return d.geometry.coordinates[1] + "," + d.geometry.coordinates[0];
@@ -50,8 +53,8 @@ $(document).ready(function() {
             .group(crimeGroup)
             .width(500)
             .height(500)
-            .center([37.7595, -122.427])
-            .zoom(16)
+            .center([37.77, -122.44])
+            .zoom(12)
             .renderPopup(true)
             .filterByArea(true);
 
