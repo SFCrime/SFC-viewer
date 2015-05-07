@@ -29,35 +29,51 @@
         <![endif]-->
 
     <div class='container'>
+
+      <div class='row'>
+        <div class='col-md-12 text-center'>
+          <h1>Create An Event!</h1>
+        </div>
+      </div>
+
         <div class='row'>
-            <div class='col-md-12'>
-                <h1>San Francisco Crime Viz!</h1>
+            <div class='col-md-6'>
+                <div id='creationMap'></div>
             </div>
-        </div>
-
-        <div class='row'>
-            <divclass='col-md-12'>
-                <div id='map'></div>
-            </divclass='col-md-12'>
-        </div>
-        <div class='row'>
-            <div class='col-md-12'>
-
-                <form>
-                    <div class='form-group'>
-                        <div id='datepicker' class="input-daterange">
-                            <input type="text" class="input-small" value="2012-04-05" />
-                            <span class="add-on">to</span>
-                            <input type="text" class="input-small" value="2012-04-19" />
-                        </div>
-
-                        <button type='submit' class='btn btn-default'>Submit</button>
+            <div class='col-md-6'>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>Please create an event in the below form</h3>
+                        <h4>This will allow us to analyze the same area during two distinct time periods. Each field is required.</h4>
                     </div>
+                </div>
+                <form id="creationForm">
+                    <div class='form-group'>
+                        <label for="eventName">Event Name</label>
+                        <input type="text" class="form-control" id="eventName" placeholder="Enter Event Name">
+                    </div>
+
+                    <div class='form-group'>
+                        <label for="datePicker1"> Please Select the Initial Event's Start and End Dates</label>
+                        <div id='datePicker1' class="input-daterange input-group">
+                            <input type="text" id='startDate1' class="input-sm form-control" aria-describedby="datemid" value="9-9-2014" />
+                            <span id="datemid" class="input-group-addon">to</span>
+                            <input type="text" id='endDate1' aria-describedby="datemid" class="input-sm form-control" value="9-12-2014" />
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <label for="datePicker2"> Please Select the Second Event's Start and End Dates</label>
+                        <div id='datePicker2' class="input-daterange input-group">
+                            <input type="text" id='startDate2' class="input-sm form-control" aria-describedby="datemid" value="9-9-2014" />
+                            <span id="datemid" class="input-group-addon">to</span>
+                            <input type="text" id='endDate2' aria-describedby="datemid" class="input-sm form-control" value="9-12-2014" />
+                        </div>
+                    </div>
+                    <button type='submit' class='btn btn-default pull-right'>Submit</button>
                 </form>
             </div>
         </div>
     </div>
-
     <!-- build:js scripts/vendor.js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>

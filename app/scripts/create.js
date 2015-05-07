@@ -1,40 +1,77 @@
 $(document).ready(function() {
 
-    //Date Picker
-    $('#datepicker').datepicker();
 
-    //Mapping Information
+    // Mapping Setup
     var mapbox_pk = "pk.eyJ1IjoiYmlsbGMiLCJhIjoiYllENmI2VSJ9.7 wxYGAIJoOtQ2WE3zoCJEA";
-    window.Map = L.map('map').setView([37.77, -122.44], 13);
+    window.Map = L.map('map').setView([37.77, -122.44], 12);
 
     L.tileLayer('http://{s}.tiles.mapbox.com/v3/billc.lj7dn4cg/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     }).addTo(window.Map);
 
-    // Initialise the FeatureGroup to store editable layers
-    var drawnItems = new L.FeatureGroup();
-    window.Map.addLayer(drawnItems);
+    var drawnItems = new L.FeatureGroup(); // the items that will be drawn
 
-    // Initialise the draw control and pass it the FeatureGroup of editable layers
+
     var drawControl = new L.Control.Draw({
-        edit: {
+        draw: { // controls what features show up
+            polyline: false,
+            marker: false,
+            circle: false // hope to enable in the future
+        },
+        edit: { // adds the feature groups
             featureGroup: drawnItems,
         }
     });
-    window.Map.addControl(drawControl);
 
-    window.Map.on('draw:created', function(e) {
-        var type = e.layerType,
-            layer = e.layer;
-
-        // Need to setup drawing
-        if (layer.toGeoJSON().geometry.type === "Polygon") {
-
-        }
-
+    // should disable functionality to draw multiple
+    var onDrawComplete = function(e) {
+        var layer = e.layer;
         drawnItems.addLayer(layer);
+        if (layer.toGeoJSON().geometry.type === "Polygon") {
+            window.formGeoJSON = layer.toGeoJSON();
+            console.log(window.formGeoJSON);
+        }
+    }
 
-    });
-    // // End Mapping Information
+    var onEditComplete = function(e) {
+            var layer = e.layers.getLayers()[0];
+            if (layer.toGeoJSON().geometry.type === "Polygon") {
+                window.formGeoJSON = layer.toGeoJSON();
+                console.log(window.formGeoJSON);
+            }
+        }
+        // End Mapping Setup
 
+    // Create Form submit
+    var createFormSubmit = function() {
+        var dirtyParams = {};
+        dirtyParams.startDate1 = $('#startDate1').val();
+        dirtyParams.endDate1 = $('#endDate1').val();
+        dirtyParams.startDate2 = $('#startDate2').val();
+        dirtyParams.endDate2 = $('#endDate2').val();
+        dirtyParams.eventName = $('#eventName').val();
+        dirtyParams.geoType = window.formGeoJSON.geometry.type;
+        dirtyParams.coordinates = window.formGeoJSON
+            .geometry
+            .coordinates[0]
+            .map(function(d) {
+                return String(d[0]).concat(" ", d[1]);
+            }).join();
+
+        console.log(dirtyParams.coordinates);
+
+        var params = $.param(dirtyParams);
+        var url = "http://localhost:9000/event_comparison.html?" + params;
+        window.location.href = url;
+        return false; // prevent refresh of page
+    }
+
+    // Instantiations
+    $('#datePicker1').datepicker();
+    $('#datePicker2').datepicker();
+    window.Map.addLayer(drawnItems);
+    window.Map.addControl(drawControl);
+    window.Map.on('draw:created', onDrawComplete);
+    window.Map.on('draw:edited', onEditComplete);
+    $("#creationForm").submit(createFormSubmit);
 });
