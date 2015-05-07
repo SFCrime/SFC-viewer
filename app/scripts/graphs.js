@@ -2,7 +2,7 @@ $(document).ready(function() {
     'use strict';
     window.setupApp();
 
-    d3.xhr("http://localhost:5000/api/v1/crime/?type=Polygon&coordinates=-122.43114709854127+37.75737492779443%2C-122.43114709854127+37.76243022568955%2C-122.42318630218506+37.76243022568955%2C-122.42318630218506+37.75737492779443%2C-122.43114709854127+37.75737492779443&start_date=09-07-2014&end_date=09-14-2014", function(data) {
+    d3.xhr("http://localhost:5000/api/v1/crime/?type=Polygon&coordinates=-122.43114709854127+37.75737492779443%2C-122.43114709854127+37.76243022568955%2C-122.42318630218506+37.76243022568955%2C-122.42318630218506+37.75737492779443%2C-122.43114709854127+37.75737492779443&start_date=09-07-2014&end_date=09-20-2014", function(data) {
         drawMarkerArea(JSON.parse(data.response));
     });
 
@@ -47,7 +47,7 @@ $(document).ready(function() {
         dc.rowChart("#category", groupname)
             .dimension(category)
             .group(categoryGroup)
-            .height(200)
+            .height(225)
             .width(450)
             .elasticX(true)
             .colors(["#2ca25f"])
@@ -56,7 +56,7 @@ $(document).ready(function() {
         dc.rowChart("#dayofweek", groupname)
             .dimension(dayofweek)
             .group(dayofweekGroup)
-            .height(200)
+            .height(150)
             .width(450)
             .elasticX(true)
             .colors(["#2b8cbe"])
@@ -66,7 +66,7 @@ $(document).ready(function() {
             .dimension(crimesbyday)
             .group(crimesbydayGroup)
             .width(450)
-            .height(200)
+            .height(100)
             .transitionDuration(500)
             .elasticY(true)
             .x(d3.time.scale().domain([minDate, maxDate]))
