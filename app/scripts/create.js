@@ -3,7 +3,7 @@ $(document).ready(function() {
 
     // Mapping Setup
     var mapbox_pk = "pk.eyJ1IjoiYmlsbGMiLCJhIjoiYllENmI2VSJ9.7 wxYGAIJoOtQ2WE3zoCJEA";
-    window.Map = L.map('map').setView([37.77, -122.44], 12);
+    window.Map = L.map('creationMap').setView([37.77, -122.44], 12);
 
     L.tileLayer('http://{s}.tiles.mapbox.com/v3/billc.lj7dn4cg/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -45,12 +45,12 @@ $(document).ready(function() {
     // Create Form submit
     var createFormSubmit = function() {
         var dirtyParams = {};
-        dirtyParams.startDate1 = $('#startDate1').val();
-        dirtyParams.endDate1 = $('#endDate1').val();
-        dirtyParams.startDate2 = $('#startDate2').val();
-        dirtyParams.endDate2 = $('#endDate2').val();
-        dirtyParams.eventName = $('#eventName').val();
-        dirtyParams.geoType = window.formGeoJSON.geometry.type;
+        dirtyParams.start_date_1 = $('#startDate1').val();
+        dirtyParams.end_date_1 = $('#endDate1').val();
+        dirtyParams.start_date_2 = $('#startDate2').val();
+        dirtyParams.end_date_2 = $('#endDate2').val();
+        dirtyParams.event_name = $('#eventName').val();
+        dirtyParams.type = window.formGeoJSON.geometry.type;
         dirtyParams.coordinates = window.formGeoJSON
             .geometry
             .coordinates[0]
@@ -67,8 +67,8 @@ $(document).ready(function() {
     }
 
     // Instantiations
-    $('#datePicker1').datepicker();
-    $('#datePicker2').datepicker();
+    $('#datePicker1').datepicker({format:"mm-dd-yyyy"});
+    $('#datePicker2').datepicker({format:"mm-dd-yyyy"});
     window.Map.addLayer(drawnItems);
     window.Map.addControl(drawControl);
     window.Map.on('draw:created', onDrawComplete);
