@@ -9,6 +9,14 @@ $(document).ready(function() {
         //drawMarkerArea(response.geojson_crime[1].features);
     }
 
+    var RedIcon = L.Icon.Default.extend({
+        options: {
+            iconUrl: 'images/marker-icon-red.png'
+        }
+    });
+    var redIcon = new RedIcon();
+
+
     if (!((setUp.getParams().type == "") || (setUp.getParams().type === undefined))) {
         url = setUp.api_url_base + $.param(setUp.getParams()); // do we have query params? if so set the url
     } else { // give a default view...likely change this in the future
@@ -18,13 +26,13 @@ $(document).ready(function() {
     d3.xhr(url, renderData);
 
 
-    function drawMarkerArea(data) { // must accept only a geojson object
-        var data = crossfilter(data.features),
+    function drawMarkerArea(inputGeoJSON) { // must accept only a geojson object
+        var data = crossfilter(inputGeoJSON.features),
             groupname = "marker-area",
             crime = data.dimension(function(d) {
                 return d.geometry.coordinates[1] + "," + d.geometry.coordinates[0];
             }),
-            crimeGroup = crime.group().reduceCount(),
+            crimeGroup = crime.group(),
             category = data.dimension(function(d) {
                 return d.properties.category;
             }),
@@ -40,6 +48,8 @@ $(document).ready(function() {
             }),
             crimesbydayGroup = crimesbyday.group().reduceCount();
 
+        window.data = data;
+
         // find earliest and latest dates and add 1 hour buffer
         var topDate = crimesbyday.top(1),
             maxTmp = new Date(topDate[0].properties.date),
@@ -53,6 +63,30 @@ $(document).ready(function() {
             .group(crimeGroup)
             .width(500)
             .height(500)
+            .marker(function(d, map) {
+                // console.log(d);
+                // console.log(inputGeoJSON);
+                var marker = new L.Marker(d.key.split(","), {
+                    title: "fuck off",
+                    riseOnHover: true,
+                    //         icon: redIcon
+                });
+                return marker;
+            })
+            .popup(function(d, marker) {
+                // d.value = number of points there
+                //console.log(d);
+                var filterFunc = function(d) {
+                        return d.geometry.coordinates[1] + "," + d.geometry.coordinates[0] === this.key;
+                }
+                var filtered = inputGeoJSON.features.filter(filterFunc, d);
+
+                var cats = filtered.map(function(d){return d.properties.category}).join(", ");
+                //var cats = filtered.map(function(d){});
+                var returnDiv = "<h5>Categories:</h5> " + cats;
+                returnDiv = returnDiv + "<h5>Number of Records</h5> " + d.value;
+                return returnDiv;
+            })
             .center([37.77, -122.44])
             .zoom(12)
             .renderPopup(true)
@@ -61,7 +95,7 @@ $(document).ready(function() {
         dc.rowChart("#category", groupname)
             .dimension(category)
             .group(categoryGroup)
-            .height(225)
+            .height(300)
             .width(450)
             .elasticX(true)
             .colors(["#2ca25f"])
@@ -83,7 +117,7 @@ $(document).ready(function() {
             .dimension(crimesbyday)
             .group(crimesbydayGroup)
             .width(450)
-            .height(100)
+            .height(200)
             .transitionDuration(500)
             .elasticY(true)
             .x(d3.time.scale().domain([minDate, maxDate]))
