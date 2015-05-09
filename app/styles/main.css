@@ -1,11 +1,29 @@
-#creationMap {
-    height: 500px;
-}
-#map {
+#story1map {
     height: 93vh;
     /* this needs to be fixed to take the navbar into account*/
     width: 100%;
 }
+.col-md-8{
+    padding-left:0px;
+}
 body {
     padding-top: 70px;
 }
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.x.axis path {
+    display: none;
+}
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
