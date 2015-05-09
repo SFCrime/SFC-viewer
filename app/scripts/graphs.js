@@ -2,16 +2,61 @@ $(document).ready(function() {
     'use strict';
     var setUp = window.setupApp();
     var url;
-    var renderData = function(data) {
-        var response = JSON.parse(data.response);
-        console.log(response);
-        renderMarkerArea(response.geojson_crime[0]);
-        //drawMarkerArea(response.geojson_crime[1].features);
+
+    var getGroupDict = function(crossfilterObj) {
+        var crime = crossfilterObj.dimension(function(d) {
+                return d.geometry.coordinates[1] + "," + d.geometry.coordinates[0];
+            }),
+            crimeGroup = crime.group(),
+            category = crossfilterObj.dimension(function(d) {
+                return d.properties.category;
+            }),
+            categoryGroup = category.group().reduceCount(),
+            dayofweek = crossfilterObj.dimension(function(d) {
+                var day = new Date(d.properties.date).getDay();
+                var name = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satday'];
+                return day + '.' + name[day];
+            }),
+            dayofweekGroup = dayofweek.group().reduceCount(),
+            crimesbyday = crossfilterObj.dimension(function(d) { // this needs to be fixed to do the timing right
+                return new Date(d.properties.date);
+            }),
+            crimesbydayGroup = crimesbyday.group().reduceCount();
+
+        return {
+            crime: crime,
+            crimeGroup: crimeGroup,
+            category: category,
+            categoryGroup: categoryGroup,
+            dayofweek: dayofweek,
+            dayofweekGroup: dayofweekGroup,
+            crimesbyday: crimesbyday,
+            crimesbydayGroup: crimesbydayGroup
+        }
     }
 
-    var renderRowChart = function (divId, groupname, dimension, group){
-        var height = 300, width = 450;
-        if (group.size() < 4){
+    var renderData = function(data) {
+        var response = JSON.parse(data.response);
+        var geo1 = response.geojson_crime[0];
+        var geo2 = response.geojson_crime[1];
+        var crossfilter1 = crossfilter(geo1.features);
+        var crossfilter2 = crossfilter(geo2.features);
+        var geo1Groups = getGroupDict(crossfilter1);
+        var geo2Groups = getGroupDict(crossfilter2);
+        geo1Groups.group = "g1";
+        geo1Groups.features = geo1.features;
+        geo2Groups.group = "g2";
+        geo2Groups.features = geo2.features;
+        renderMarkerArea.call(geo1Groups, "#category", "#dayofweek");
+        renderMarkerArea.call(geo2Groups, "#category2", "#dayofweek2");
+        dc.renderAll("g1");
+        dc.renderAll("g2");
+    }
+
+    var renderRowChart = function(divId, groupname, dimension, group) {
+        var height = 300,
+            width = 450;
+        if (group.size() < 4) {
             height = 200;
         }
         return dc.rowChart(divId, groupname)
@@ -20,29 +65,26 @@ $(document).ready(function() {
             .height(height);
     }
 
-
-    var renderBarChart = function (divId, groupname, dimension, group){
-        var height = 200, width = 450;
+    var renderBarChart = function(divId, groupname, dimension, group) {
+        var height = 200,
+            width = 450;
         return dc.barChart(divId, groupname)
             .dimension(dimension)
             .group(group)
             .height(height);
     }
 
-
-    var renderLeafletChart = function (divId, groupname, dimension, group){
-     return dc.leafletMarkerChart(divId, groupname)
+    var renderLeafletChart = function(divId, groupname, dimension, group, rawFeatures) {
+        return dc.leafletMarkerChart(divId, groupname)
             .dimension(dimension)
             .group(group)
             .width(500)
             .height(500)
             .marker(function(d, map) {
-                // console.log(d);
-                // console.log(inputGeoJSON);
                 var marker = new L.Marker(d.key.split(","), {
                     title: "fuck off",
                     riseOnHover: true,
-                             icon: redIcon
+                    //icon: redIcon
                 });
                 return marker;
             })
@@ -50,11 +92,13 @@ $(document).ready(function() {
                 // d.value = number of points there
                 //console.log(d);
                 var filterFunc = function(d) {
-                        return d.geometry.coordinates[1] + "," + d.geometry.coordinates[0] === this.key;
+                    return d.geometry.coordinates[1] + "," + d.geometry.coordinates[0] === this.key;
                 }
-                var filtered = inputGeoJSON.features.filter(filterFunc, d);
+                var filtered = rawFeatures.filter(filterFunc, d);
 
-                var cats = filtered.map(function(d){return d.properties.category}).join(", ");
+                var cats = filtered.map(function(d) {
+                    return d.properties.category
+                }).join(", ");
                 //var cats = filtered.map(function(d){});
                 var returnDiv = "<h5>Categories:</h5> " + cats;
                 returnDiv = returnDiv + "<h5>Number of Records</h5> " + d.value;
@@ -65,8 +109,8 @@ $(document).ready(function() {
             .renderPopup(true)
             .filterByArea(true);
     }
-    
-    
+
+
     var RedIcon = L.Icon.Default.extend({
         options: {
             iconUrl: 'images/marker-icon-red.png'
@@ -84,61 +128,45 @@ $(document).ready(function() {
     d3.xhr(url, renderData);
 
 
-    
-    function renderMarkerArea(inputGeoJSON) { // must accept only a geojson object
-        window.inputGeoJSON = inputGeoJSON;
-        var data = crossfilter(inputGeoJSON.features),
-            groupname = "marker-area",
-            crime = data.dimension(function(d) {
-                return d.geometry.coordinates[1] + "," + d.geometry.coordinates[0];
-            }),
-            crimeGroup = crime.group(),
-            category = data.dimension(function(d) {
-                return d.properties.category;
-            }),
-            categoryGroup = category.group().reduceCount(),
-            dayofweek = data.dimension(function(d) {
-                var day = new Date(d.properties.date).getDay();
-                var name = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Satday'];
-                return day + '.' + name[day];
-            }),
-            dayofweekGroup = dayofweek.group().reduceCount(),
-            crimesbyday = data.dimension(function(d) {
-                return new Date(d.properties.date);
-            }),
-            crimesbydayGroup = crimesbyday.group().reduceCount();
 
-        renderLeafletChart("#map", groupname, crime, crimeGroup);
+    function renderMarkerArea(div1,div2) {
+        // be sure to only call with .call
+        console.log(this);
 
-        renderRowChart("#category", groupname, category, categoryGroup)
+        renderLeafletChart("#map", this.group, this.crime, this.crimeGroup, this.features);
+        renderRowChart(div1, this.group, this.category, this.categoryGroup)
             .elasticX(true)
             .colors(["#2ca25f"])
             .xAxis().ticks(2).tickFormat(d3.format("s"));
-        
-        renderRowChart("#dayofweek", groupname, dayofweek, dayofweekGroup)
+
+        renderRowChart(div2,  this.group, this.dayofweek, this.dayofweekGroup)
             .elasticX(true)
-           .colors(["#2b8cbe"])
+            .colors(["#2b8cbe"])
             .label(function(d) {
-                 return d.key.split('.')[1];
-             })
+                return d.key.split('.')[1];
+            })
             .xAxis().ticks(2).tickFormat(d3.format("s"));
 
+        // var topDate = crimesbyday.top(1),
+        //     maxTmp = new Date(topDate[0].properties.date),
+        //     maxDate = new Date(maxTmp.setHours(maxTmp.getHours() + 1)),
+        //     bottomDate = crimesbyday.bottom(1),
+        //     minTmp = new Date(bottomDate[0].properties.date),
+        //     minDate = new Date(minTmp.setHours(minTmp.getHours() - 1));
 
 
-        
-        // find earliest and latest dates and add 1 hour buffer
-        var topDate = crimesbyday.top(1),
-            maxTmp = new Date(topDate[0].properties.date),
-            maxDate = new Date(maxTmp.setHours(maxTmp.getHours() + 1)),
-            bottomDate = crimesbyday.bottom(1),
-            minTmp = new Date(bottomDate[0].properties.date),
-            minDate = new Date(minTmp.setHours(minTmp.getHours() - 1));
-        
-        renderBarChart("#crimesbyday", groupname, crimesbyday, crimesbydayGroup)
-            .elasticY(true)
-            .x(d3.time.scale().domain([minDate, maxDate]))
-            .yAxis().ticks(2).tickFormat(d3.format("s"));
+        // dc.lineChart("#crimesbyday", groupname)
+        //     .renderArea(true)
+        //     .width(450)
+        //     .height(200)
+        //     .dimension(crimesbyday)
+        //     .group(crimesbydayGroup)
+        //     .x(d3.time.scale().domain([minDate, maxDate]))
+        //     .elasticY(true)
+        //     .yAxis().ticks(2).tickFormat(d3.format("s"));
 
-        dc.renderAll(groupname);
+        // console.log(crimesbyday);
+
+        // dc.renderAll(groupname);
     }
 });
