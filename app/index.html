@@ -2,65 +2,63 @@
 <html class="no-js" lang="">
 
 <head>
-  <meta charset="utf-8">
-  <title>SFCViewer</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css styles/vendor.css -->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
-  <link rel="stylesheet" href="bower_components/radar-chart-d3/src/radar-chart.css">
-  <link rel="stylesheet" href="bower_components/leaflet-draw/dist/leaflet.draw.css">
-  <!-- endbuild -->
-  <!-- build:css(.tmp) styles/main.css -->
-  <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild -->
-  <style>
-
-    .radar-chart .area {
-    fill-opacity: 0.3;
-    }
-    .radar-chart.focus .area {
-    fill-opacity: 0.3;
-    }
-    .radar-chart.focus .area.focused {
-    fill-opacity: 0.6;
-    }
-
-  </style>
-  <!-- build:js scripts/vendor/modernizr.js -->
-  <script src="bower_components/modernizr/modernizr.js"></script>
-  <!-- endbuild -->
+    <meta charset="utf-8">
+    <title>SFCViewer</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css styles/vendor.css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="bower_components/radar-chart-d3/src/radar-chart.css">
+    <link rel="stylesheet" href="bower_components/leaflet-draw/dist/leaflet.draw.css">
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+    <style>
+        .radar-chart .area {
+            fill-opacity: 0.1;
+        }
+        .radar-chart .area.focused {
+            fill-opacity: 0.8;
+        }
+        .tooltip{ display:none;}
+    </style>
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
 </head>
 
 <body>
-  <!--[if lt IE 10]>
+    <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-   <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row">
-            <div id="radar-chart-wrapper" class="col-md-4">
-              <div id="radar-chart" class='radar-chart'></div>
-              <div id='legend'></div>
+            <div id="radar-chart-wrapper" class="col-md-6">
+                <div id="radar-chart" class='radar-chart'></div>
+            </div>
+            <div class='col-md-6'>
+                <div id='legend'></div>
             </div>
         </div>
     </div>
 
 
-  <!-- build:js scripts/vendor.js -->
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/leaflet/dist/leaflet.js"></script>
-  <script src="bower_components/underscore/underscore.js"></script>
-  <script src="bower_components/d3/d3.min.js"></script>
-  <script src="bower_components/dimple/dist/dimple.v2.1.2.min.js"></script>
-  <script src="bower_components/radar-chart-d3/src/radar-chart.js"></script>
-  <!-- endbuild -->
+    <!-- build:js scripts/vendor.js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/dimple/dist/dimple.v2.1.2.min.js"></script>
+    <script src="bower_components/radar-chart-d3/src/radar-chart.js"></script>
+    <!-- endbuild -->
 
-  <!-- build:js({.tmp,app}) scripts/main.js -->
-  <script src="scripts/radar-chart.js"></script>
-  <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/main.js -->
+    <script src="scripts/radar-chart.js"></script>
+    <!-- endbuild -->
 </body>
 
 </html>
