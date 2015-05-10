@@ -36,7 +36,9 @@ $(document).ready(function() {
     }
 
     var renderData = function(data) {
+        console.log(data);
         var response = JSON.parse(data.response);
+        console.log(response);
         var geo1 = response.geojson_crime[0];
         var geo2 = response.geojson_crime[1];
         var crossfilter1 = crossfilter(geo1.features);
